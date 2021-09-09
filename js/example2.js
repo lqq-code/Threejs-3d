@@ -1,8 +1,7 @@
-var scene, camera, renderer,cube;
-
+var scene, camera, renderer, cube;
 var vConsole = new VConsole();
+var nextRX = 0, nextRY = 0;
 
-var nextRX=0,nextRY=0;
 function init(){
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(45, document.body.clientWidth / document.body.clientHeight, 0.1, 100);
@@ -15,7 +14,7 @@ function init(){
     document.getElementById("container").appendChild(renderer.domElement);
 
 
-    const geometry = new THREE.BoxGeometry( .6, .6, .6 );
+    const geometry = new THREE.BoxGeometry( 0.5, 0.5, 0.5 );
     const material = new THREE.MeshStandardMaterial( {color: 0x6698CB} );
     material.metalness = .44;
     material.roughness = 0.4;
@@ -30,10 +29,10 @@ function init(){
       var canvas = document.getElementById('canvas');
       var context = canvas.getContext('2d');
 
-      var tracker = new tracking.ObjectTracker('face'); //传入参数，找到追踪的元素，绑定定义的追踪器，参数
+      var tracker = new tracking.ObjectTracker(['face', 'eye', 'mouth']); //传入参数，找到追踪的元素，绑定定义的追踪器，参数
       tracker.setEdgesDensity(0.1); //设置边缘密度
       tracker.setInitialScale(4); //设置初始比例
-      tracker.setStepSize(2);  //指定步长
+      tracker.setStepSize(1);  //指定步长
 
       tracking.track('#video', tracker, { camera: true });
 
@@ -41,7 +40,7 @@ function init(){
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         event.data.forEach(function(rect) {
-          context.strokeStyle = '#a64ceb';
+          context.strokeStyle = "red";
           context.strokeRect(rect.x, rect.y, rect.width, rect.height);
           context.font = '11px Helvetica';
           context.fillStyle = "#fff";
@@ -83,10 +82,8 @@ function addLight(){
 
 function loop() {
     requestAnimationFrame(loop);
-
     cube.rotation.x += (nextRX-cube.rotation.x)/5;
     cube.rotation.y += (nextRY-cube.rotation.y)/5;
-
     renderer.render(scene, camera);
 }
 

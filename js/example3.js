@@ -1,6 +1,6 @@
-var scene, camera, renderer,cube;
-
+var scene, camera, renderer, cube;
 var vConsole = new VConsole();
+
 function init(){
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(40, document.body.clientWidth / document.body.clientHeight, 0.1, 100);
@@ -29,18 +29,17 @@ function init(){
       var beta = event.beta;
       var gamma = event.gamma;
       console.log('Orientation - Alpha: '+alpha+', Beta: '+beta+', Gamma: '+gamma);
-
       cube.rotation.y = gamma/100;
       cube.rotation.x = beta/100;
     }
 
-
-    document.querySelector("#container").onclick=function(){
+    document.querySelector("#container,#info").onclick=function(){
       window.DeviceOrientationEvent.requestPermission()
         .then(state => {
+            console.log('state',state)
             switch (state) {
                 case "granted":
-                    // you can do something
+                    //在这里建立监听
                     window.addEventListener('deviceorientation', capture_orientation, false);
                     break;
                 case "denied":
